@@ -15,7 +15,15 @@ public:
 	
 	ATTBaseInteractiveActor();
 
+	virtual void StartInteraction() {};
+	virtual void FinishInteraction() {};
+
 protected:
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Collision")
+	UShapeComponent* CollisionComponent;
+
+	bool bReadyToInteract = true;
 	
 	virtual void BeginPlay() override;
 
