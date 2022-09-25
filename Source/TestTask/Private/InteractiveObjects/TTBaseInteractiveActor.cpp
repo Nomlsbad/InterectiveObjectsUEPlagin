@@ -13,9 +13,3 @@ ATTBaseInteractiveActor::ATTBaseInteractiveActor(const FObjectInitializer& Objec
 
 	CollisionComponent = CreateDefaultSubobject<UShapeComponent>(CollisionComponentName);
 }
-
-
-void ATTBaseInteractiveActor::BeginPlay()
-{
-	Super::BeginPlay();
-}

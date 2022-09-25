@@ -15,6 +15,8 @@ public:
 	
 	ATTBaseInteractiveActor(const FObjectInitializer& ObjectInitializer);
 
+	static FName CollisionComponentName;
+
 	virtual void StartInteraction() {};
 	virtual void FinishInteraction() {};
 
@@ -23,12 +25,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Collision")
 	UShapeComponent* CollisionComponent;
 
-	bool bReadyToInteract = true;
-	
-	virtual void BeginPlay() override;
-
-public:	
-
-	static FName CollisionComponentName;
+	bool bReadyToInteract;
 
 };
