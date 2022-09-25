@@ -2,23 +2,20 @@
 
 
 #include "InteractiveObjects/TTBaseInteractiveActor.h"
+#include "Components/ShapeComponent.h"
 
+FName ATTBaseInteractiveActor::CollisionComponentName(TEXT("CollisionComponent"));
 
-ATTBaseInteractiveActor::ATTBaseInteractiveActor()
+ATTBaseInteractiveActor::ATTBaseInteractiveActor(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
  	PrimaryActorTick.bCanEverTick = true;
+
+	CollisionComponent = CreateDefaultSubobject<UShapeComponent>(CollisionComponentName);
 }
 
 
 void ATTBaseInteractiveActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
-
-
-void ATTBaseInteractiveActor::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-

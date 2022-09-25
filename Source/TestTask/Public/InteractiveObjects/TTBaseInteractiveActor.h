@@ -13,7 +13,7 @@ class TESTTASK_API ATTBaseInteractiveActor : public AActor
 	
 public:	
 	
-	ATTBaseInteractiveActor();
+	ATTBaseInteractiveActor(const FObjectInitializer& ObjectInitializer);
 
 	virtual void StartInteraction() {};
 	virtual void FinishInteraction() {};
@@ -28,7 +28,7 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	
-	virtual void Tick(float DeltaTime) override;
+
+	static FName CollisionComponentName;
 
 };
