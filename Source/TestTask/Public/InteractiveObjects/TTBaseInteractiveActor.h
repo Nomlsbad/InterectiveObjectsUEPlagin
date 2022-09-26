@@ -16,15 +16,27 @@ public:
 	ATTBaseInteractiveActor(const FObjectInitializer& ObjectInitializer);
 
 	static FName CollisionComponentName;
+	
+	UFUNCTION(BlueprintNativeEvent)
+	void StartInteraction();
+	virtual void StartInteraction_Implementation() {}
 
-	virtual void StartInteraction() {};
-	virtual void FinishInteraction() {};
+	UFUNCTION(BlueprintNativeEvent)
+	void FinishInteraction();
+	virtual void FinishInteraction_Implementation() {}	
 
 protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Collision")
-	UShapeComponent* CollisionComponent;
+	UPrimitiveComponent* CollisionComponent;
 
 	bool bReadyToInteract;
 
+	UFUNCTION()
+	virtual void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp,int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {};
+
+	UFUNCTION()
+	virtual void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {};
 };

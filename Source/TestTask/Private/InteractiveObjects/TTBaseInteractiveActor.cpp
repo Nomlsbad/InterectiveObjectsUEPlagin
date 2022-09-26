@@ -2,7 +2,6 @@
 
 
 #include "InteractiveObjects/TTBaseInteractiveActor.h"
-#include "Components/ShapeComponent.h"
 
 FName ATTBaseInteractiveActor::CollisionComponentName(TEXT("CollisionComponent"));
 
@@ -11,5 +10,5 @@ ATTBaseInteractiveActor::ATTBaseInteractiveActor(const FObjectInitializer& Objec
 {
  	PrimaryActorTick.bCanEverTick = true;
 
-	CollisionComponent = CreateDefaultSubobject<UShapeComponent>(CollisionComponentName);
+	CollisionComponent = CreateDefaultSubobject<UPrimitiveComponent>(CollisionComponentName);
 }
