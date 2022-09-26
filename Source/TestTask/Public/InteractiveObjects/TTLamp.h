@@ -6,6 +6,7 @@
 #include "InteractiveObjects/TTBaseInteractiveActor.h"
 #include "TTLamp.generated.h"
 
+class UPointLightComponent;
 
 UCLASS()
 class TESTTASK_API ATTLamp : public ATTBaseInteractiveActor
@@ -15,5 +16,19 @@ class TESTTASK_API ATTLamp : public ATTBaseInteractiveActor
 public:
 	
 	ATTLamp(const FObjectInitializer& ObjectInitializer);
+
+protected:
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPointLightComponent* PointLightComponent;
+
+	int32 CountOfPawnInRadius;
+
+	virtual void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
+
+	virtual void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) override;
 	
+	virtual void BeginPlay() override;
 };
