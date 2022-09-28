@@ -12,3 +12,4 @@ ATTBaseInteractiveActor::ATTBaseInteractiveActor(const FObjectInitializer& Objec
 
 	CollisionComponent = CreateDefaultSubobject<UPrimitiveComponent>(CollisionComponentName);
 }
+

@@ -23,20 +23,22 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent)
 	void FinishInteraction();
-	virtual void FinishInteraction_Implementation() {}	
+	virtual void FinishInteraction_Implementation() {}
+
+	bool GetReadyToInteract() const { return bReadyToInteract; }
 
 protected:
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Collision")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Collision")
 	UPrimitiveComponent* CollisionComponent;
 
 	bool bReadyToInteract;
 
 	UFUNCTION()
 	virtual void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp,int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {};
+	UPrimitiveComponent* OtherComp,int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {}
 
 	UFUNCTION()
 	virtual void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
-		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {};
+		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {}
 };
