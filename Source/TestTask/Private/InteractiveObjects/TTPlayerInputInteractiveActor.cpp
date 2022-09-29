@@ -24,14 +24,15 @@ ATTPlayerInputInteractiveActor::ATTPlayerInputInteractiveActor(const FObjectInit
 		CollisionComponent->SetupAttachment(GetRootComponent());
 		CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATTPlayerInputInteractiveActor::OnOverlapBegin);
 		CollisionComponent->OnComponentEndOverlap.AddDynamic(this, &ATTPlayerInputInteractiveActor::OnOverlapEnd);
-		CollisionComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-		CollisionComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel1, ECollisionResponse::ECR_Overlap);
+		CollisionComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
+		CollisionComponent->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Overlap);
 	}
 }
 
 void ATTPlayerInputInteractiveActor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	UE_LOG(LogTemp, Display, TEXT("Overlap Begin"));
 	bReadyToInteract = true;
 	if (bNeedToHighlight)
 	{
@@ -42,6 +43,7 @@ void ATTPlayerInputInteractiveActor::OnOverlapBegin(UPrimitiveComponent* Overlap
 void ATTPlayerInputInteractiveActor::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
+	UE_LOG(LogTemp, Display, TEXT("Overlap End"));
 	bReadyToInteract = false;
 	if (bNeedToHighlight)
 	{

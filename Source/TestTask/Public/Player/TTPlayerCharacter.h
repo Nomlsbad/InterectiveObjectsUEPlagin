@@ -6,6 +6,8 @@
 #include "Player/TestTaskCharacter.h"
 #include "TTPlayerCharacter.generated.h"
 
+class UTTInteractionComponent;
+
 UCLASS()
 class TESTTASK_API ATTPlayerCharacter : public ATestTaskCharacter
 {
@@ -17,5 +19,13 @@ public:
 
 protected:
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	UTTInteractionComponent* InteractiveComponent;
+
+	virtual void PossessedBy(AController* NewController) override;
+	
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+
+	virtual void OnInteraction();
+	
 };
