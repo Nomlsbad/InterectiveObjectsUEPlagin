@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "TTInteractionComponent.generated.h"
 
+class ATTBaseInteractiveActor;
 class ATTPlayerInteractiveSphere;
 class ATTPlayerInputInteractiveActor;
 
@@ -31,12 +32,17 @@ protected:
 	float UpdateTargetRate = 0.2f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
-	ATTPlayerInteractiveSphere* InteractiveSphere;
+	TSubclassOf<ATTBaseInteractiveActor> InteractiveSphereClass;
+
+	virtual void BeginPlay() override;
 
 private:
 
 	UPROPERTY()
 	ATTPlayerInputInteractiveActor* PotentialForInteract = nullptr;
+
+	UPROPERTY()
+	ATTBaseInteractiveActor* InteractiveSphere;
 
 	FTimerHandle UpdaterTargetTimerHandle;
 	

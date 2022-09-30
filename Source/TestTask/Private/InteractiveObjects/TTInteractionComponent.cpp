@@ -5,6 +5,7 @@
 #include "DrawDebugHelpers.h"
 #include "Camera/CameraComponent.h"
 #include "InteractiveObjects/TTPlayerInputInteractiveActor.h"
+#include "InteractiveObjects/TTPlayerInteractiveSphere.h"
 #include "Player/TTPlayerCharacter.h"
 
 
@@ -22,9 +23,20 @@ void UTTInteractionComponent::InitializeUpdaterTargetTimer()
 
 void UTTInteractionComponent::TryToInteract()
 {
-	if (!PotentialForInteract || !PotentialForInteract->GetReadyToInteract()) return;
+	if (!IsValid(PotentialForInteract) || !PotentialForInteract->GetReadyToInteract()) return;
 
 	PotentialForInteract->StartInteraction();
+}
+
+void UTTInteractionComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	InteractiveSphere = GetWorld()->SpawnActor<ATTPlayerInteractiveSphere>(InteractiveSphereClass);
+	if (IsValid(GetOwner()))
+	{
+		InteractiveSphere->SetOwner(GetOwner());
+	}
 }
 
 void UTTInteractionComponent::UpdatePotentialForInteract()
@@ -35,9 +47,10 @@ void UTTInteractionComponent::UpdatePotentialForInteract()
 	
 	GetHitResultInInteractiveChannel(HitResult);
 	if (!HitResult.GetComponent()) return;
-	
-	const auto InputInteractiveActor = Cast<ATTPlayerInputInteractiveActor>(HitResult.GetActor()->GetOwner());
+	UE_LOG(LogTemp, Display, TEXT("%s"), *HitResult.GetComponent()->GetName());
+	const auto InputInteractiveActor = Cast<ATTPlayerInputInteractiveActor>(HitResult.GetComponent()->GetOwner());
 	if (!InputInteractiveActor) return;
+	UE_LOG(LogTemp, Display, TEXT("2"));
 
 	PotentialForInteract = InputInteractiveActor;
 }
@@ -56,10 +69,13 @@ bool UTTInteractionComponent::GetHitResultInInteractiveChannel(FHitResult& HitRe
 	
 	const FVector Start = PlayerLocation;
 	const FVector End = Start + CameraRotation.Vector() * MaxDistanceToTarget;
-	
-	DrawDebugLine(GetWorld(), Start, End, FColor::Orange, false, UpdateTargetRate, 0, 3);
 
-	return GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_GameTraceChannel1);
+	const bool bWasHit = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility);
+	InteractiveSphere->SetActorLocation(bWasHit ? HitResult.ImpactPoint : End);
+
+	DrawDebugLine(GetWorld(), Start, bWasHit ? HitResult.ImpactPoint : End, FColor::Orange, false, UpdateTargetRate, 0, 3);
+	
+	return bWasHit;
 }
 
 

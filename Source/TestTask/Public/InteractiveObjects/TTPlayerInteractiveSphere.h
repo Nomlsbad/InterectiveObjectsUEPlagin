@@ -12,5 +12,8 @@ class TESTTASK_API ATTPlayerInteractiveSphere : public ATTBaseInteractiveActor
 {
 	GENERATED_BODY()
 
-	ATTPlayerInteractiveSphere(const FObjectInitializer ObjectInitializer);
+public:
+	
+	ATTPlayerInteractiveSphere(const FObjectInitializer& ObjectInitializer);
+	
 };
