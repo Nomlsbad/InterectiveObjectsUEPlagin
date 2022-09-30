@@ -20,7 +20,7 @@ ATTLamp::ATTLamp(const FObjectInitializer& ObjectInitializer)
 	PointLightComponent->SetVisibility(false);
 }
 
-void ATTLamp::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+void ATTLamp::OnOverlapBegin_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	CountOfPawnInRadius += 1;
@@ -30,7 +30,7 @@ void ATTLamp::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 	StartInteraction();
 }
 
-void ATTLamp::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+void ATTLamp::OnOverlapEnd_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	int32 OtherBodyIndex)
 {
 	CountOfPawnInRadius -= 1;

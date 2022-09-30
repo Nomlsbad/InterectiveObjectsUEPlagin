@@ -11,8 +11,8 @@ ATTPlayerInputInteractiveActor::ATTPlayerInputInteractiveActor(const FObjectInit
 {
 	bNeedToHighlight = false;
 
-	ItemMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("MeshComponent");
-	SetRootComponent(ItemMeshComponent);
+	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("MeshComponent");
+	SetRootComponent(MeshComponent);
 
 	HighlighterMesh = CreateDefaultSubobject<UStaticMeshComponent>("HighlighterMeshComponent");
 	HighlighterMesh->SetupAttachment(GetRootComponent());
@@ -20,7 +20,6 @@ ATTPlayerInputInteractiveActor::ATTPlayerInputInteractiveActor(const FObjectInit
 	
 	if (CollisionComponent)
 	{
-		UE_LOG(LogTemp, Display, TEXT("%s | CollisionComponent is valid"), *this->GetName());
 		CollisionComponent->SetupAttachment(GetRootComponent());
 		CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATTPlayerInputInteractiveActor::OnOverlapBegin);
 		CollisionComponent->OnComponentEndOverlap.AddDynamic(this, &ATTPlayerInputInteractiveActor::OnOverlapEnd);
@@ -29,10 +28,9 @@ ATTPlayerInputInteractiveActor::ATTPlayerInputInteractiveActor(const FObjectInit
 	}
 }
 
-void ATTPlayerInputInteractiveActor::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+void ATTPlayerInputInteractiveActor::OnOverlapBegin_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Display, TEXT("Overlap Begin"));
 	bReadyToInteract = true;
 	if (bNeedToHighlight)
 	{
@@ -40,10 +38,9 @@ void ATTPlayerInputInteractiveActor::OnOverlapBegin(UPrimitiveComponent* Overlap
 	}
 }
 
-void ATTPlayerInputInteractiveActor::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+void ATTPlayerInputInteractiveActor::OnOverlapEnd_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	UE_LOG(LogTemp, Display, TEXT("Overlap End"));
 	bReadyToInteract = false;
 	if (bNeedToHighlight)
 	{

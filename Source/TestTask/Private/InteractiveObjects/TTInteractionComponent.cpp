@@ -45,12 +45,10 @@ void UTTInteractionComponent::UpdatePotentialForInteract()
 
 	PotentialForInteract = nullptr;
 	
-	GetHitResultInInteractiveChannel(HitResult);
-	if (!HitResult.GetComponent()) return;
-	UE_LOG(LogTemp, Display, TEXT("%s"), *HitResult.GetComponent()->GetName());
+	if (!GetHitResultInInteractiveChannel(HitResult)) return;
+	
 	const auto InputInteractiveActor = Cast<ATTPlayerInputInteractiveActor>(HitResult.GetComponent()->GetOwner());
 	if (!InputInteractiveActor) return;
-	UE_LOG(LogTemp, Display, TEXT("2"));
 
 	PotentialForInteract = InputInteractiveActor;
 }
@@ -60,9 +58,6 @@ bool UTTInteractionComponent::GetHitResultInInteractiveChannel(FHitResult& HitRe
 {	
 	const auto Character = Cast<ATTPlayerCharacter>(GetOwner());
 	if (!Character) return false;
-	
-	const auto Controller = Character->GetController<APlayerController>();
-	if (!Controller) return false;
 
 	const FRotator CameraRotation = Character->GetFollowCamera()->GetComponentRotation();
 	const FVector PlayerLocation = Character->GetActorLocation();
@@ -74,7 +69,7 @@ bool UTTInteractionComponent::GetHitResultInInteractiveChannel(FHitResult& HitRe
 	InteractiveSphere->SetActorLocation(bWasHit ? HitResult.ImpactPoint : End);
 
 	DrawDebugLine(GetWorld(), Start, bWasHit ? HitResult.ImpactPoint : End, FColor::Orange, false, UpdateTargetRate, 0, 3);
-	
+
 	return bWasHit;
 }
 

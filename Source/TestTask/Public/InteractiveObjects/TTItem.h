@@ -6,9 +6,7 @@
 #include "InteractiveObjects/TTPlayerInputInteractiveActor.h"
 #include "TTItem.generated.h"
 
-/**
- * 
- */
+
 UCLASS()
 class TESTTASK_API ATTItem : public ATTPlayerInputInteractiveActor
 {

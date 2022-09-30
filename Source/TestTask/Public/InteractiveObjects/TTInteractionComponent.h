@@ -21,7 +21,8 @@ public:
 
 	void InitializeUpdaterTargetTimer();
 
-	virtual void TryToInteract();
+	UFUNCTION(BlueprintCallable)
+	void TryToInteract();
 	
 protected:
 

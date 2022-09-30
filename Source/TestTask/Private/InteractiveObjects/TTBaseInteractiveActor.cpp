@@ -3,6 +3,7 @@
 
 #include "InteractiveObjects/TTBaseInteractiveActor.h"
 
+
 FName ATTBaseInteractiveActor::CollisionComponentName(TEXT("CollisionComponent"));
 
 ATTBaseInteractiveActor::ATTBaseInteractiveActor(const FObjectInitializer& ObjectInitializer)
@@ -11,5 +12,8 @@ ATTBaseInteractiveActor::ATTBaseInteractiveActor(const FObjectInitializer& Objec
  	PrimaryActorTick.bCanEverTick = true;
 
 	CollisionComponent = CreateDefaultSubobject<UPrimitiveComponent>(CollisionComponentName);
+	if (CollisionComponent)
+	{
+		CollisionComponent->SetCollisionObjectType(ECC_GameTraceChannel1);
+	}
 }
-
