@@ -23,7 +23,7 @@ void UTTInteractionComponent::InitializeUpdaterTargetTimer()
 
 void UTTInteractionComponent::TryToInteract()
 {
-	if (!IsValid(PotentialForInteract) || !PotentialForInteract->GetReadyToInteract()) return;
+	if (!IsValid(PotentialForInteract) || !PotentialForInteract->IsReadyToStartInteraction()) return;
 
 	PotentialForInteract->StartInteraction();
 }
@@ -32,9 +32,9 @@ void UTTInteractionComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	InteractiveSphere = GetWorld()->SpawnActor<ATTPlayerInteractiveSphere>(InteractiveSphereClass);
-	if (IsValid(GetOwner()))
+	if (InteractiveSphereClass)
 	{
+		InteractiveSphere = GetWorld()->SpawnActor<ATTBaseInteractiveActor>(InteractiveSphereClass);
 		InteractiveSphere->SetOwner(GetOwner());
 	}
 }
@@ -66,7 +66,10 @@ bool UTTInteractionComponent::GetHitResultInInteractiveChannel(FHitResult& HitRe
 	const FVector End = Start + CameraRotation.Vector() * MaxDistanceToTarget;
 
 	const bool bWasHit = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility);
-	InteractiveSphere->SetActorLocation(bWasHit ? HitResult.ImpactPoint : End);
+	if (InteractiveSphere)
+	{
+		InteractiveSphere->SetActorLocation(bWasHit ? HitResult.ImpactPoint : End);
+	}
 
 	DrawDebugLine(GetWorld(), Start, bWasHit ? HitResult.ImpactPoint : End, FColor::Orange, false, UpdateTargetRate, 0, 3);
 

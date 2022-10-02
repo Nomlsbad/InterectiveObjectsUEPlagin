@@ -3,17 +3,14 @@
 
 #include "InteractiveObjects/TTBaseInteractiveActor.h"
 
-
-FName ATTBaseInteractiveActor::CollisionComponentName(TEXT("CollisionComponent"));
-
-ATTBaseInteractiveActor::ATTBaseInteractiveActor(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
+ATTBaseInteractiveActor::ATTBaseInteractiveActor()
 {
  	PrimaryActorTick.bCanEverTick = true;
+}
 
-	CollisionComponent = CreateDefaultSubobject<UPrimitiveComponent>(CollisionComponentName);
-	if (CollisionComponent)
-	{
-		CollisionComponent->SetCollisionObjectType(ECC_GameTraceChannel1);
-	}
+void ATTBaseInteractiveActor::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	CollisionComponentReference.ComponentProperty = CollisionComponentName;
+	BP_CollisionComponent = Cast<UPrimitiveComponent>(CollisionComponentReference.GetComponent(this));
 }

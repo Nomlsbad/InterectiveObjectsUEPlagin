@@ -14,7 +14,9 @@ class TESTTASK_API ATTPlayerInputInteractiveActor : public ATTBaseInteractiveAct
 
 public:
 
-	ATTPlayerInputInteractiveActor(const FObjectInitializer& ObjectInitializer);
+	ATTPlayerInputInteractiveActor();
+
+	virtual bool IsReadyToStartInteraction_Implementation() override { return bIsSeen; }
 
 protected:
 
@@ -32,6 +34,10 @@ protected:
 
 	virtual void OnOverlapEnd_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) override;
-	
-	virtual void BeginPlay() override;
+
+	virtual void PostInitializeComponents() override;
+
+private:
+
+	bool bIsSeen = false;
 };
