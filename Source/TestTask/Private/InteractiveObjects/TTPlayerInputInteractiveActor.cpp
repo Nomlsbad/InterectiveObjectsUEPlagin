@@ -7,24 +7,13 @@
 ATTPlayerInputInteractiveActor::ATTPlayerInputInteractiveActor()
 {
 	bNeedToHighlight = false;
-
-	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>("MeshComponent");
-	SetRootComponent(MeshComponent);
-
-	HighlighterMesh = CreateDefaultSubobject<UStaticMeshComponent>("HighlighterMeshComponent");
-	HighlighterMesh->SetupAttachment(GetRootComponent());
-	HighlighterMesh->SetVisibility(false);
+	bIsSeen = false;
 }
 
 void ATTPlayerInputInteractiveActor::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-
-	if (!IsValid(BP_CollisionComponent))
-	{
-		UE_LOG(LogTTInteractiveObjects, Warning, TEXT("%s : CollisonComponent isn't valid"), *this->GetName());
-		return;
-	}
+	
 	BP_CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATTPlayerInputInteractiveActor::OnOverlapBegin);
 	BP_CollisionComponent->OnComponentEndOverlap.AddDynamic(this, &ATTPlayerInputInteractiveActor::OnOverlapEnd);
 }
@@ -32,19 +21,31 @@ void ATTPlayerInputInteractiveActor::PostInitializeComponents()
 void ATTPlayerInputInteractiveActor::OnOverlapBegin_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	Super::OnOverlapBegin_Implementation(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
+
+	if (bIsSeen) return;
 	bIsSeen = true;
+
 	if (bNeedToHighlight)
 	{
-		HighlighterMesh->SetVisibility(true);
+		SetHighlight(true);
 	}
+
+	OnActorIsSeen.Broadcast(OtherActor);
 }
 
 void ATTPlayerInputInteractiveActor::OnOverlapEnd_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	bIsSeen = false;
+	Super::OnOverlapEnd_Implementation(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex);
+
+	bIsSeen = ObjectsTryingToInteract.Num() > 0;
+	if (bIsSeen) return;
+
 	if (bNeedToHighlight)
 	{
-		HighlighterMesh->SetVisibility(false);
+		SetHighlight(false);
 	}
+
+	OnActorIsUnseen.Broadcast();
 }

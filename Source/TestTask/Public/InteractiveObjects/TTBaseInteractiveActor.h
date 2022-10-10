@@ -7,6 +7,10 @@
 #include "TTBaseInteractiveActor.generated.h"
 
 DECLARE_LOG_CATEGORY_CLASS(LogTTInteractiveObjects, All, All);
+	
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnStartInteractionSignature, AActor*, InstigatedBy);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE( FOnStopInteractionSignature);
+
 
 UCLASS()
 class TESTTASK_API ATTBaseInteractiveActor : public AActor
@@ -14,41 +18,53 @@ class TESTTASK_API ATTBaseInteractiveActor : public AActor
 	GENERATED_BODY()
 
 public:
+	
 	ATTBaseInteractiveActor();
 
-	UFUNCTION(BlueprintNativeEvent)
-	void StartInteraction();
-	virtual void StartInteraction_Implementation() {}
+	UPROPERTY(BlueprintAssignable, Category = "InteractiveObject | Interaction")
+	FOnStartInteractionSignature OnStartInteraction;
 
-	UFUNCTION(BlueprintNativeEvent)
+	UPROPERTY(BlueprintAssignable, Category = "InteractiveObject | Interaction")
+	FOnStopInteractionSignature OnStopInteraction;
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InteractiveObject | Interaction")
+	void StartInteraction(AActor* InstigatedBy);
+	virtual void StartInteraction_Implementation(AActor* InstigatedBy);
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InteractiveObject | Interaction")
 	void StopInteraction();
-	virtual void StopInteraction_Implementation() {}
+	virtual void StopInteraction_Implementation();
 
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InteractiveObject | Interaction")
 	bool IsReadyToStartInteraction();
-	virtual bool IsReadyToStartInteraction_Implementation() { return false; }
+	virtual bool IsReadyToStartInteraction_Implementation() {return false;}
 
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InteractiveObject | Interaction")
 	bool IsReadyToStopInteraction();
-	virtual bool IsReadyToStopInteraction_Implementation() { return false; }
+	virtual bool IsReadyToStopInteraction_Implementation() {return false;}
 
 protected:
-	UPROPERTY(VisibleAnywhere, Category = "Collision")
-	UPrimitiveComponent* BP_CollisionComponent;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Collision")
+	UPROPERTY(BlueprintReadOnly)
+	TArray<AActor*> ObjectsTryingToInteract;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "InteractiveObject | Collision")
 	FName CollisionComponentName = "CollisionComponent";
 
-	UFUNCTION(BlueprintNativeEvent)
+	UPROPERTY()
+	UPrimitiveComponent* BP_CollisionComponent;
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InteractiveObject | Collision")
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	virtual void OnOverlapBegin_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {}
+	virtual void OnOverlapBegin_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InteractiveObject | Collision")
 	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-	virtual void OnOverlapEnd_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {}
+	virtual void OnOverlapEnd_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	virtual void PostInitializeComponents() override;
 
 private:
+	
 	FComponentReference CollisionComponentReference;
 };

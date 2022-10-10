@@ -6,6 +6,9 @@
 #include "InteractiveObjects/TTBaseInteractiveActor.h"
 #include "TTPlayerInputInteractiveActor.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam( FOnActorIsSeenSignature, AActor*, Viewer);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE( FOnActorIsUnseenSignature);
+
 
 UCLASS()
 class TESTTASK_API ATTPlayerInputInteractiveActor : public ATTBaseInteractiveActor
@@ -16,18 +19,22 @@ public:
 
 	ATTPlayerInputInteractiveActor();
 
+	UPROPERTY(BlueprintAssignable, Category = "InteractiveObject | Interaction")
+	FOnActorIsSeenSignature OnActorIsSeen;
+
+	UPROPERTY(BlueprintAssignable, Category = "InteractiveObject | Interaction")
+	FOnActorIsUnseenSignature OnActorIsUnseen;
+
 	virtual bool IsReadyToStartInteraction_Implementation() override { return bIsSeen; }
 
 protected:
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
-	UStaticMeshComponent* MeshComponent;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components", meta = (EditCondition = "!bNeedToHighlight"))
-	UStaticMeshComponent* HighlighterMesh;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "InteractiveObject | Highlight")
 	bool bNeedToHighlight;
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InteractiveObject | Highlight")
+	void SetHighlight(bool bHighlightVisibility);
+	virtual void SetHighlight_Implementation(bool bHighlightVisibility) {}
 
 	virtual void OnOverlapBegin_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
@@ -39,5 +46,5 @@ protected:
 
 private:
 
-	bool bIsSeen = false;
+	bool bIsSeen;
 };

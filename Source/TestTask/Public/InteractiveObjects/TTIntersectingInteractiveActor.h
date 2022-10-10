@@ -12,20 +12,19 @@ class TESTTASK_API ATTIntersectingInteractiveActor : public ATTBaseInteractiveAc
 {
 	GENERATED_BODY()
 
-protected:
+public:
 
-	UPROPERTY(BlueprintReadOnly)
-	int32 CountOfIntersectingObjects = 0;
+	virtual bool IsReadyToStartInteraction_Implementation() override;
+
+	virtual bool IsReadyToStopInteraction_Implementation() override;
+	
+protected:
 	
 	virtual void OnOverlapBegin_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp,int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
 	
 	virtual void OnOverlapEnd_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) override;
-
-	virtual bool IsReadyToStartInteraction_Implementation() override;
-
-	virtual bool IsReadyToStopInteraction_Implementation() override;
 
 	virtual void PostInitializeComponents() override;
 };

@@ -5,7 +5,6 @@
 #include "DrawDebugHelpers.h"
 #include "Camera/CameraComponent.h"
 #include "InteractiveObjects/TTPlayerInputInteractiveActor.h"
-#include "InteractiveObjects/TTPlayerInteractiveSphere.h"
 #include "Player/TTPlayerCharacter.h"
 
 
