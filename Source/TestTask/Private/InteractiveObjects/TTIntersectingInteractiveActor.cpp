@@ -6,12 +6,12 @@
 
 bool ATTIntersectingInteractiveActor::IsReadyToStartInteraction_Implementation()
 {
-	return ObjectsTryingToInteract.Num() == 1;
+	return CountOfOverlappingActors == 1;
 }
 
 bool ATTIntersectingInteractiveActor::IsReadyToStopInteraction_Implementation()
 {
-	return ObjectsTryingToInteract.Num() == 0;
+	return CountOfOverlappingActors == 0;
 }
 
 void ATTIntersectingInteractiveActor::OnOverlapBegin_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,

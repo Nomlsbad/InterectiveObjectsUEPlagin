@@ -34,11 +34,19 @@ void ATTBaseInteractiveActor::PostInitializeComponents()
 void ATTBaseInteractiveActor::OnOverlapBegin_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	ObjectsTryingToInteract.Add(OtherActor);
+	if (bStoreOverlappingActors)
+	{
+		OverlappingActors.Add(OtherActor);
+	}
+	++CountOfOverlappingActors;
 }
 
 void ATTBaseInteractiveActor::OnOverlapEnd_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	ObjectsTryingToInteract.Remove(OtherActor);
+	if (bStoreOverlappingActors)
+	{
+		OverlappingActors.Remove(OtherActor);
+	}
+	--CountOfOverlappingActors;
 }

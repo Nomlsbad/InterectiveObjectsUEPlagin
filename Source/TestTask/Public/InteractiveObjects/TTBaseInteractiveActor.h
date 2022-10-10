@@ -45,8 +45,14 @@ public:
 
 protected:
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "InteractiveObject | Interacrion Options")
+	bool bStoreOverlappingActors = false;
+
 	UPROPERTY(BlueprintReadOnly)
-	TArray<AActor*> ObjectsTryingToInteract;
+	int32 CountOfOverlappingActors = 0;
+	
+	UPROPERTY(BlueprintReadOnly)
+	TArray<AActor*> OverlappingActors;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "InteractiveObject | Collision")
 	FName CollisionComponentName = "CollisionComponent";

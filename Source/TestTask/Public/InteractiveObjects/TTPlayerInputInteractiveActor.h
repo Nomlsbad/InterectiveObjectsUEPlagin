@@ -29,10 +29,10 @@ public:
 
 protected:
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "InteractiveObject | Highlight")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "InteractiveObject | Interacrion Options")
 	bool bNeedToHighlight;
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InteractiveObject | Highlight")
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InteractiveObject | Interaction")
 	void SetHighlight(bool bHighlightVisibility);
 	virtual void SetHighlight_Implementation(bool bHighlightVisibility) {}
 

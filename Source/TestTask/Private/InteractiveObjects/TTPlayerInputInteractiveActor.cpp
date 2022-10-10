@@ -39,7 +39,7 @@ void ATTPlayerInputInteractiveActor::OnOverlapEnd_Implementation(UPrimitiveCompo
 {
 	Super::OnOverlapEnd_Implementation(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex);
 
-	bIsSeen = ObjectsTryingToInteract.Num() > 0;
+	bIsSeen = CountOfOverlappingActors > 0;
 	if (bIsSeen) return;
 
 	if (bNeedToHighlight)
