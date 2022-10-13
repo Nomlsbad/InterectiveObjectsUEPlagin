@@ -50,9 +50,6 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly)
 	int32 CountOfOverlappingActors = 0;
-	
-	UPROPERTY(BlueprintReadOnly)
-	TArray<AActor*> OverlappingActors;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "InteractiveObject | Collision")
 	TArray<FName> CollisionComponentNames;
@@ -70,7 +67,12 @@ protected:
 
 	virtual void PostInitializeComponents() override;
 
+	bool GetOverlappingActors(TArray<AActor*>& Actors) const;
+
 private:
+
+	UPROPERTY()
+	TArray<AActor*> OverlappingActors;
 	
 	FComponentReference CollisionComponentReference;
 };
