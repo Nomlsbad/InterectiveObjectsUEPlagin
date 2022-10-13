@@ -4,12 +4,12 @@
 #include "InteractiveObjects/TTIntersectingInteractiveActor.h"
 
 
-bool ATTIntersectingInteractiveActor::IsReadyToStartInteraction_Implementation()
+bool ATTIntersectingInteractiveActor::IsReadyToStartInteraction()
 {
 	return CountOfOverlappingActors == 1;
 }
 
-bool ATTIntersectingInteractiveActor::IsReadyToStopInteraction_Implementation()
+bool ATTIntersectingInteractiveActor::IsReadyToStopInteraction()
 {
 	return CountOfOverlappingActors == 0;
 }

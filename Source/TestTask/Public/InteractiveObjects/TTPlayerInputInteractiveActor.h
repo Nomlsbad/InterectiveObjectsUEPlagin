@@ -25,7 +25,7 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "InteractiveObject | Interaction")
 	FOnActorIsUnseenSignature OnActorIsUnseen;
 
-	virtual bool IsReadyToStartInteraction_Implementation() override { return bIsSeen; }
+	virtual bool IsReadyToStartInteraction() override { return bIsSeen; }
 
 protected:
 	

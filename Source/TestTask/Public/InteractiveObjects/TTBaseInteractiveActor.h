@@ -35,13 +35,11 @@ public:
 	void StopInteraction();
 	virtual void StopInteraction_Implementation();
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InteractiveObject | Interaction")
-	bool IsReadyToStartInteraction();
-	virtual bool IsReadyToStartInteraction_Implementation() {return false;}
+	UFUNCTION(BlueprintCallable, Category = "InteractiveObject | Interaction")
+	virtual bool IsReadyToStartInteraction() {return false;}
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InteractiveObject | Interaction")
-	bool IsReadyToStopInteraction();
-	virtual bool IsReadyToStopInteraction_Implementation() {return false;}
+	UFUNCTION(BlueprintCallable, Category = "InteractiveObject | Interaction")
+	virtual bool IsReadyToStopInteraction() {return false;}
 
 protected:
 

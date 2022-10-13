@@ -14,9 +14,9 @@ class TESTTASK_API ATTIntersectingInteractiveActor : public ATTBaseInteractiveAc
 
 public:
 
-	virtual bool IsReadyToStartInteraction_Implementation() override;
+	virtual bool IsReadyToStartInteraction() override;
 
-	virtual bool IsReadyToStopInteraction_Implementation() override;
+	virtual bool IsReadyToStopInteraction() override;
 	
 protected:
 	
