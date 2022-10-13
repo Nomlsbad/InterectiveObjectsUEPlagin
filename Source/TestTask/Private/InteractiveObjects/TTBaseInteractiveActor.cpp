@@ -25,13 +25,19 @@ void ATTBaseInteractiveActor::PostInitializeComponents()
 
 	if (CollisionComponentNames.Num() == 0)
 	{
-		UE_LOG(LogTTInteractiveObjects, Warning, TEXT("%s : hasn't any CollisonComponents"), *this->GetName());
+		UE_LOG(LogTTInteractiveObjects, Warning, TEXT("%s : Hasn't any collison components"), *this->GetName());
 	}
 	for(const auto ComponentName : CollisionComponentNames)
 	{
 		CollisionComponentReference.ComponentProperty = ComponentName;
 		const auto CollisionComponent = Cast<UPrimitiveComponent>(CollisionComponentReference.GetComponent(this));
+		if (!IsValid(CollisionComponent) || CollisionComponent->GetName() != ComponentName.ToString())
+		{
+			UE_LOG(LogTTInteractiveObjects, Warning, TEXT("%s : Component with %s name doesn't exist."), *this->GetName(), *ComponentName.ToString());
+			continue;
+		}
 		CollisionComponents.Add(CollisionComponent);
+		UE_LOG(LogTTInteractiveObjects, Display, TEXT("%s : Collision component %s was added."), *this->GetName(), *CollisionComponent->GetName());
 	}
 }
 

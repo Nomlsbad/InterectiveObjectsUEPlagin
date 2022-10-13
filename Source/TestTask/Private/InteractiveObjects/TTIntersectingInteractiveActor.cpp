@@ -38,14 +38,7 @@ void ATTIntersectingInteractiveActor::PostInitializeComponents()
 
 	for (const auto CollisionComponent : CollisionComponents)
 	{
-		if (IsValid(CollisionComponent))
-		{
-			CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATTIntersectingInteractiveActor::OnOverlapBegin);
-			CollisionComponent->OnComponentEndOverlap.AddDynamic(this, &ATTIntersectingInteractiveActor::OnOverlapEnd);
-		}
-		else
-		{
-			UE_LOG(LogTTInteractiveObjects, Warning, TEXT("%s : CollisonComponent isn't valid"), *this->GetName());
-		}
+		CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATTIntersectingInteractiveActor::OnOverlapBegin);
+		CollisionComponent->OnComponentEndOverlap.AddDynamic(this, &ATTIntersectingInteractiveActor::OnOverlapEnd);
 	}
 }

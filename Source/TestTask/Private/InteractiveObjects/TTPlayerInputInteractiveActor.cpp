@@ -14,16 +14,11 @@ void ATTPlayerInputInteractiveActor::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 	
-	for (int i = 0; i < CollisionComponentNames.Num(); ++i)
-		if (IsValid(CollisionComponents[i]))
-		{
-			CollisionComponents[i]->OnComponentBeginOverlap.AddDynamic(this, &ATTPlayerInputInteractiveActor::OnOverlapBegin);
-			CollisionComponents[i]->OnComponentEndOverlap.AddDynamic(this, &ATTPlayerInputInteractiveActor::OnOverlapEnd);
-		}
-		else
-		{
-			UE_LOG(LogTTInteractiveObjects, Warning, TEXT("%s : CollisonComponent %s isn't valid"), *this->GetName(), *CollisionComponentNames[i].ToString());
-		}
+	for (const auto CollisionComponent : CollisionComponents)
+	{
+		CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATTPlayerInputInteractiveActor::OnOverlapBegin);
+		CollisionComponent->OnComponentEndOverlap.AddDynamic(this, &ATTPlayerInputInteractiveActor::OnOverlapEnd);
+	}
 }
 
 void ATTPlayerInputInteractiveActor::OnOverlapBegin_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
