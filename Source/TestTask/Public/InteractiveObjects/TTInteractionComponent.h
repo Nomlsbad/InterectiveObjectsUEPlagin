@@ -26,13 +26,13 @@ public:
 	
 protected:
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction", meta = (ClampMin = "0.0"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction Options", meta = (ClampMin = "0.0"))
 	float MaxDistanceToTarget = 200.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction", meta = (ClampMin = "0.0"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction Options", meta = (ClampMin = "0.0"))
 	float UpdateTargetRate = 0.2f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
+		
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction Options")
 	TSubclassOf<ATTBaseInteractiveActor> InteractiveSphereClass;
 
 	virtual void BeginPlay() override;
@@ -48,9 +48,13 @@ private:
 	FTimerHandle UpdaterTargetTimerHandle;
 	
 	void UpdatePotentialForInteract();
+
+	void GenerateOverlapEvent(const FVector& Location) const;
 	
-	bool GetHitResultInInteractiveChannel(
+	bool GetHitResultOnDistance(
+		FVector& EndTrace,
 		FHitResult& HitResult,
+		ECollisionChannel TraceChannel,
 		const FCollisionQueryParams& Params = FCollisionQueryParams::DefaultQueryParam,
 		const FCollisionResponseParams& ResponseParam = FCollisionResponseParams::DefaultResponseParam) const;
 };

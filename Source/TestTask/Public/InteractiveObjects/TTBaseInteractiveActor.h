@@ -55,10 +55,10 @@ protected:
 	TArray<AActor*> OverlappingActors;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "InteractiveObject | Collision")
-	FName CollisionComponentName = "CollisionComponent";
+	TArray<FName> CollisionComponentNames;
 
 	UPROPERTY()
-	UPrimitiveComponent* BP_CollisionComponent;
+	TArray<UPrimitiveComponent*> CollisionComponents;
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InteractiveObject | Collision")
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

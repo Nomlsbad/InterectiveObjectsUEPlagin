@@ -22,9 +22,11 @@ void UTTInteractionComponent::InitializeUpdaterTargetTimer()
 
 void UTTInteractionComponent::TryToInteract()
 {
-	if (!IsValid(PotentialForInteract) || !PotentialForInteract->IsReadyToStartInteraction()) return;
+	if (!IsValid(PotentialForInteract)
+		|| !PotentialForInteract->IsReadyToStartInteraction()
+		|| !IsValid(this->GetOwner())) return;
 
-	PotentialForInteract->StartInteraction();
+	PotentialForInteract->StartInteraction(GetOwner());
 }
 
 void UTTInteractionComponent::BeginPlay()
@@ -41,18 +43,29 @@ void UTTInteractionComponent::BeginPlay()
 void UTTInteractionComponent::UpdatePotentialForInteract()
 {
 	FHitResult HitResult;
-
+	FVector EndTrace;
+	
 	PotentialForInteract = nullptr;
 	
-	if (!GetHitResultInInteractiveChannel(HitResult)) return;
-	
-	const auto InputInteractiveActor = Cast<ATTPlayerInputInteractiveActor>(HitResult.GetComponent()->GetOwner());
-	if (!InputInteractiveActor) return;
+	if (GetHitResultOnDistance(EndTrace, HitResult, ECC_Visibility))
+	{
+		const auto InputInteractiveActor = Cast<ATTPlayerInputInteractiveActor>(HitResult.GetComponent()->GetOwner());
+		if (InputInteractiveActor)
+		{
+			PotentialForInteract = InputInteractiveActor;
+		}
+	}
 
-	PotentialForInteract = InputInteractiveActor;
+	GenerateOverlapEvent(EndTrace);
 }
 
-bool UTTInteractionComponent::GetHitResultInInteractiveChannel(FHitResult& HitResult,
+void UTTInteractionComponent::GenerateOverlapEvent(const FVector& Location) const
+{
+	if (!IsValid(InteractiveSphere)) return;
+	InteractiveSphere->SetActorLocation(Location);
+}
+
+bool UTTInteractionComponent::GetHitResultOnDistance(FVector& EndTrace, FHitResult& HitResult, ECollisionChannel TraceChannel,
 	const FCollisionQueryParams& Params, const FCollisionResponseParams& ResponseParam) const
 {	
 	const auto Character = Cast<ATTPlayerCharacter>(GetOwner());
@@ -64,13 +77,9 @@ bool UTTInteractionComponent::GetHitResultInInteractiveChannel(FHitResult& HitRe
 	const FVector Start = PlayerLocation;
 	const FVector End = Start + CameraRotation.Vector() * MaxDistanceToTarget;
 
-	const bool bWasHit = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility);
-	if (InteractiveSphere)
-	{
-		InteractiveSphere->SetActorLocation(bWasHit ? HitResult.ImpactPoint : End);
-	}
-
-	DrawDebugLine(GetWorld(), Start, bWasHit ? HitResult.ImpactPoint : End, FColor::Orange, false, UpdateTargetRate, 0, 3);
+	const bool bWasHit = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, TraceChannel);
+	bWasHit ? EndTrace = HitResult.ImpactPoint : EndTrace = End;
+	//DrawDebugLine(GetWorld(), Start, bWasHit ? HitResult.ImpactPoint : End, FColor::Orange, false, UpdateTargetRate, 0, 3);
 
 	return bWasHit;
 }

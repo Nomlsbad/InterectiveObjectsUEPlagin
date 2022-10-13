@@ -35,7 +35,17 @@ void ATTIntersectingInteractiveActor::OnOverlapEnd_Implementation(UPrimitiveComp
 void ATTIntersectingInteractiveActor::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-	
-	BP_CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATTIntersectingInteractiveActor::OnOverlapBegin);
-	BP_CollisionComponent->OnComponentEndOverlap.AddDynamic(this, &ATTIntersectingInteractiveActor::OnOverlapEnd);
+
+	for (const auto CollisionComponent : CollisionComponents)
+	{
+		if (IsValid(CollisionComponent))
+		{
+			CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ATTIntersectingInteractiveActor::OnOverlapBegin);
+			CollisionComponent->OnComponentEndOverlap.AddDynamic(this, &ATTIntersectingInteractiveActor::OnOverlapEnd);
+		}
+		else
+		{
+			UE_LOG(LogTTInteractiveObjects, Warning, TEXT("%s : CollisonComponent isn't valid"), *this->GetName());
+		}
+	}
 }

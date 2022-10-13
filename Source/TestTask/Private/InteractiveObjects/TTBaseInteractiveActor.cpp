@@ -22,12 +22,16 @@ void ATTBaseInteractiveActor::StopInteraction_Implementation()
 void ATTBaseInteractiveActor::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-	CollisionComponentReference.ComponentProperty = CollisionComponentName;
-	BP_CollisionComponent = Cast<UPrimitiveComponent>(CollisionComponentReference.GetComponent(this));
 
-	if (!IsValid(BP_CollisionComponent))
+	if (CollisionComponentNames.Num() == 0)
 	{
-		UE_LOG(LogTTInteractiveObjects, Warning, TEXT("%s : CollisonComponent isn't valid"), *this->GetName());
+		UE_LOG(LogTTInteractiveObjects, Warning, TEXT("%s : hasn't any CollisonComponents"), *this->GetName());
+	}
+	for(const auto ComponentName : CollisionComponentNames)
+	{
+		CollisionComponentReference.ComponentProperty = ComponentName;
+		const auto CollisionComponent = Cast<UPrimitiveComponent>(CollisionComponentReference.GetComponent(this));
+		CollisionComponents.Add(CollisionComponent);
 	}
 }
 
