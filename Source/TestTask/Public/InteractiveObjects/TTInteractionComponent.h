@@ -23,6 +23,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void TryToInteract();
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+	bool GetInteractionText(FString& Text) const;
 	
 protected:
 
@@ -34,7 +37,7 @@ protected:
 		
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction Options")
 	TSubclassOf<ATTBaseInteractiveActor> InteractiveSphereClass;
-
+	
 	virtual void BeginPlay() override;
 
 private:

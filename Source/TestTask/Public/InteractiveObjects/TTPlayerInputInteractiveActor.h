@@ -25,6 +25,9 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "InteractiveObject | Interaction")
 	FOnActorIsUnseenSignature OnActorIsUnseen;
 
+	UFUNCTION(BlueprintCallable, Category = "InteractiveObject | UI")
+	FString GetInteractionText() const { return InteractionText; }
+
 	virtual bool IsReadyToStartInteraction() override { return bIsSeen; }
 
 protected:
@@ -32,6 +35,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "InteractiveObject | Interacrion Options")
 	bool bNeedToHighlight;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "InteractiveObject | UI")
+	FString InteractionText;
+	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InteractiveObject | Interaction")
 	void SetHighlight(bool bHighlightVisibility);
 	virtual void SetHighlight_Implementation(bool bHighlightVisibility) {}

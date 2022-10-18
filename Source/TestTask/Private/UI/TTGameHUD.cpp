@@ -7,7 +7,7 @@
 
 void ATTGameHUD::BeginPlay()
 {
-	Super::BeginPlay();
+	Super::BeginPlay();	
 
 	PlayerHUDWidget = CreateWidget<UUserWidget>(GetWorld(), PlayerHUDWidgetClass);
 	PlayerHUDWidget->AddToViewport();

@@ -6,19 +6,20 @@
 #include "GameFramework/HUD.h"
 #include "TTGameHUD.generated.h"
 
+//class UPlayerHUDWidget;
 
 UCLASS()
 class TESTTASK_API ATTGameHUD : public AHUD
 {
 	GENERATED_BODY()
-
+	
 protected:
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
 	TSubclassOf<UUserWidget> PlayerHUDWidgetClass;
 
 	virtual void BeginPlay() override;
-
+	
 private:
 
 	UPROPERTY()

@@ -29,6 +29,13 @@ void UTTInteractionComponent::TryToInteract()
 	PotentialForInteract->StartInteraction(GetOwner());
 }
 
+bool UTTInteractionComponent::GetInteractionText(FString& Text) const
+{
+	if (!PotentialForInteract) return false;
+	Text = PotentialForInteract->GetInteractionText();
+	return true;
+}
+
 void UTTInteractionComponent::BeginPlay()
 {
 	Super::BeginPlay();
