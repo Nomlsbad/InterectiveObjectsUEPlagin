@@ -3,13 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TTBaseHUD.h"
 #include "GameFramework/HUD.h"
 #include "TTGameHUD.generated.h"
 
-//class UPlayerHUDWidget;
 
 UCLASS()
-class TESTTASK_API ATTGameHUD : public AHUD
+class TESTTASK_API ATTGameHUD : public ATTBaseHUD
 {
 	GENERATED_BODY()
 	
@@ -19,10 +19,4 @@ protected:
 	TSubclassOf<UUserWidget> PlayerHUDWidgetClass;
 
 	virtual void BeginPlay() override;
-	
-private:
-
-	UPROPERTY()
-	UUserWidget* PlayerHUDWidget;
-	
 };

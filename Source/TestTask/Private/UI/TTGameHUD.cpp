@@ -2,13 +2,13 @@
 
 
 #include "UI/TTGameHUD.h"
-#include "Blueprint/UserWidget.h"
+#include "UI/TTBaseWidget.h"
 
 
 void ATTGameHUD::BeginPlay()
 {
 	Super::BeginPlay();	
 
-	PlayerHUDWidget = CreateWidget<UUserWidget>(GetWorld(), PlayerHUDWidgetClass);
-	PlayerHUDWidget->AddToViewport();
+	Widgets.Add(EWidgetName::PlayerHUD, CreateWidget<UTTBaseWidget>(GetWorld(), PlayerHUDWidgetClass));
+	Widgets[EWidgetName::PlayerHUD]->AddToViewport();
 }

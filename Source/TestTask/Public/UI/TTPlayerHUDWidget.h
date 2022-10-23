@@ -3,12 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "TTBaseWidget.h"
 #include "TTPlayerHUDWidget.generated.h"
 
 
 UCLASS()
-class TESTTASK_API UTTPlayerHUDWidget : public UUserWidget
+class TESTTASK_API UTTPlayerHUDWidget : public UTTBaseWidget
 {
 	GENERATED_BODY()
 
