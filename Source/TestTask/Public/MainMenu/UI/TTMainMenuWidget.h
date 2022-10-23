@@ -22,7 +22,7 @@ protected:
 	UButton* SettingsButton;
 
 	UPROPERTY(meta = (BindWidget))
-	UButton* CreatorsButton;
+	UButton* CreditsButton;
 
 	UPROPERTY(meta = (BindWidget))
 	UButton* QuitGameButton;
@@ -38,7 +38,7 @@ private:
 	void OnSettings();
 
 	UFUNCTION()
-	void OnCreators();
+	void OnCredits();
 
 	UFUNCTION()
 	void OnQuitGame();

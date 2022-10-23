@@ -9,9 +9,9 @@ void ATTMainMenuHUD::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Widgets.Add(EWidgetName::MainMenu, CreateWidget<UTTBaseWidget>(GetWorld(), MainMenuWidgetClass));
-	Widgets.Add(EWidgetName::Settings, CreateWidget<UTTBaseWidget>(GetWorld(), SettingsWidgetClass));
-	Widgets.Add(EWidgetName::Creators, CreateWidget<UTTBaseWidget>(GetWorld(), CreatorsWidgetClass));
+	Widgets.Add(EHUDState::MainMenu, CreateWidget<UTTBaseWidget>(GetWorld(), MainMenuWidgetClass));
+	Widgets.Add(EHUDState::Settings, CreateWidget<UTTBaseWidget>(GetWorld(), SettingsWidgetClass));
+	Widgets.Add(EHUDState::Credits, CreateWidget<UTTBaseWidget>(GetWorld(), CreditsWidgetClass));
 
 	for (const auto WidgetPair: Widgets)
 	{
@@ -22,7 +22,7 @@ void ATTMainMenuHUD::BeginPlay()
 		Widget->SetVisibility(ESlateVisibility::Hidden);
 	}
 
-	CurrentWidgetName = EWidgetName::MainMenu;
-	const auto CurrentWidget = Widgets[EWidgetName::MainMenu];
+	CurrentWidgetName = EHUDState::MainMenu;
+	const auto CurrentWidget = Widgets[EHUDState::MainMenu];
 	CurrentWidget->SetVisibility(ESlateVisibility::Visible);
 }

@@ -8,12 +8,12 @@
 
 
 UENUM(BlueprintType)
-enum class EWidgetName : uint8
+enum class EHUDState : uint8
 {
 	None = 0,
 	MainMenu,
 	Settings,
-	Creators,
+	Credits,
 	PlayerHUD
 };
 
@@ -27,7 +27,7 @@ class TESTTASK_API ATTBaseHUD : public AHUD
 public:
 
 	UFUNCTION(BlueprintCallable, Category = "UI")
-	bool ChangeCurrentWidgetTo(EWidgetName WidgetKey);
+	bool ChangeCurrentWidgetTo(EHUDState WidgetKey);
 
 	UFUNCTION(BlueprintCallable, Category = "UI")
 	bool GoBack();
@@ -35,7 +35,7 @@ public:
 protected:
 
 	UPROPERTY()
-	TMap<EWidgetName, UTTBaseWidget*> Widgets;
+	TMap<EHUDState, UTTBaseWidget*> Widgets;
 	
-	EWidgetName CurrentWidgetName = EWidgetName::None;
+	EHUDState CurrentWidgetName = EHUDState::None;
 };

@@ -11,11 +11,23 @@
 void UTTMainMenuWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
-	
-	StartGameButton->OnClicked.AddDynamic(this, &UTTMainMenuWidget::OnStartGame);
-	SettingsButton->OnClicked.AddDynamic(this, &UTTMainMenuWidget::OnSettings);
-	CreatorsButton->OnClicked.AddDynamic(this, &UTTMainMenuWidget::OnCreators);
-	QuitGameButton->OnClicked.AddDynamic(this, &UTTMainMenuWidget::OnQuitGame);
+
+	if (StartGameButton)
+	{
+		StartGameButton->OnClicked.AddDynamic(this, &UTTMainMenuWidget::OnStartGame);
+	}
+	if (SettingsButton)
+	{
+		SettingsButton->OnClicked.AddDynamic(this, &UTTMainMenuWidget::OnSettings);
+	}
+	if (CreditsButton)
+	{
+		CreditsButton->OnClicked.AddDynamic(this, &UTTMainMenuWidget::OnCredits);
+	}
+	if (QuitGameButton)
+	{
+		QuitGameButton->OnClicked.AddDynamic(this, &UTTMainMenuWidget::OnQuitGame);
+	}
 }
 
 void UTTMainMenuWidget::OnStartGame()
@@ -24,19 +36,18 @@ void UTTMainMenuWidget::OnStartGame()
 	
 	const auto GameInstance = GetWorld()->GetGameInstance<UTTGameInstance>();
 	if (!GameInstance) return;
-
-	if (GameInstance->GetGameLevelName() == NAME_None) return;
+	
 	UGameplayStatics::OpenLevel(this, GameInstance->GetGameLevelName());
 }
 
 void UTTMainMenuWidget::OnSettings()
 {
-	ChangeCurrentWidgetTo(EWidgetName::Settings);
+	ChangeCurrentWidgetTo(EHUDState::Settings);
 }
 
-void UTTMainMenuWidget::OnCreators()
+void UTTMainMenuWidget::OnCredits()
 {
-	ChangeCurrentWidgetTo(EWidgetName::Creators);
+	ChangeCurrentWidgetTo(EHUDState::Credits);
 }
 
 void UTTMainMenuWidget::OnQuitGame()

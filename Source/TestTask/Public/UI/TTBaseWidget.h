@@ -15,14 +15,14 @@ class TESTTASK_API UTTBaseWidget : public UUserWidget
 
 public:
 
-	EWidgetName GetPreviousWidgetName() const { return PreviousWidgetName; }
-	void SetPreviousWidgetName(EWidgetName WidgetName) { PreviousWidgetName = WidgetName; }
+	EHUDState GetPreviousWidgetName() const { return PreviousWidgetName; }
+	void SetPreviousWidgetName(EHUDState WidgetName) { PreviousWidgetName = WidgetName; }
 
 protected:
 
-	EWidgetName PreviousWidgetName = EWidgetName::None;
+	EHUDState PreviousWidgetName = EHUDState::None;
 
-	bool ChangeCurrentWidgetTo(EWidgetName WidgetName);
+	bool ChangeCurrentWidgetTo(EHUDState WidgetName);
 
 	bool GoBack();
 

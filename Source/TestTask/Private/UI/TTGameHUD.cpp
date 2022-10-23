@@ -9,6 +9,7 @@ void ATTGameHUD::BeginPlay()
 {
 	Super::BeginPlay();	
 
-	Widgets.Add(EWidgetName::PlayerHUD, CreateWidget<UTTBaseWidget>(GetWorld(), PlayerHUDWidgetClass));
-	Widgets[EWidgetName::PlayerHUD]->AddToViewport();
+	Widgets.Add(EHUDState::PlayerHUD, CreateWidget<UTTBaseWidget>(GetWorld(), PlayerHUDWidgetClass));
+	Widgets[EHUDState::PlayerHUD]->AddToViewport();
+	CurrentWidgetName = EHUDState::PlayerHUD;
 }

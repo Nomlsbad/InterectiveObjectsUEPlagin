@@ -5,12 +5,12 @@
 #include "UI/TTBaseWidget.h"
 
 
-bool ATTBaseHUD::ChangeCurrentWidgetTo(EWidgetName WidgetKey)
+bool ATTBaseHUD::ChangeCurrentWidgetTo(EHUDState WidgetKey)
 {
 	if (!Widgets.Contains(WidgetKey) || !Widgets.Contains(CurrentWidgetName)) return false;
 
 	auto CurrentWidget = Widgets[CurrentWidgetName];
-	EWidgetName PreviousWidgetName = EWidgetName::None;
+	EHUDState PreviousWidgetName = EHUDState::None;
 	
 	if (CurrentWidget)
 	{
@@ -32,12 +32,11 @@ bool ATTBaseHUD::GoBack()
 
 	auto CurrentWidget = Widgets[CurrentWidgetName];
 	if (!Widgets.Contains(CurrentWidget->GetPreviousWidgetName())) return false;
-
 	const auto PreviousWidgetName = CurrentWidget->GetPreviousWidgetName();
 	CurrentWidget->SetVisibility(ESlateVisibility::Hidden);
+
 	CurrentWidget = Widgets[CurrentWidget->GetPreviousWidgetName()];
 	if (!CurrentWidget) return false;
-
 	CurrentWidgetName = PreviousWidgetName;
 	CurrentWidget->SetVisibility(ESlateVisibility::Visible);
 	

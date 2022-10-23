@@ -21,7 +21,7 @@ protected:
 	TSubclassOf<UUserWidget> SettingsWidgetClass;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "UI")
-	TSubclassOf<UUserWidget> CreatorsWidgetClass;
+	TSubclassOf<UUserWidget> CreditsWidgetClass;
 
 	virtual void BeginPlay() override;
 };

@@ -3,7 +3,7 @@
 
 #include "UI/TTBaseWidget.h"
 
-bool UTTBaseWidget::ChangeCurrentWidgetTo(EWidgetName WidgetName)
+bool UTTBaseWidget::ChangeCurrentWidgetTo(EHUDState WidgetName)
 {
 	const auto BaseHUD = GetBaseHUD();
 	if (!BaseHUD) return false;
