@@ -3,6 +3,7 @@
 
 #include "InteractiveObjects/TTInteractionComponent.h"
 #include "DrawDebugHelpers.h"
+#include "TTInteractiveObjectsSettings.h"
 #include "Camera/CameraComponent.h"
 #include "InteractiveObjects/TTPlayerInputInteractiveActor.h"
 #include "Player/TTPlayerCharacter.h"
@@ -16,6 +17,8 @@ UTTInteractionComponent::UTTInteractionComponent()
 void UTTInteractionComponent::InitializeUpdaterTargetTimer()
 {
 	FTimerDelegate UpdateTargetTimerDelegate;
+	UpdateTargetRate = GetDefault<UTTInteractiveObjectsSettings>()->UpdateTargetRate;
+	
 	UpdateTargetTimerDelegate.BindUObject(this, &UTTInteractionComponent::UpdatePotentialForInteract);
 	GetWorld()->GetTimerManager().SetTimer(UpdaterTargetTimerHandle, UpdateTargetTimerDelegate, UpdateTargetRate, true);
 }
@@ -39,11 +42,15 @@ bool UTTInteractionComponent::GetInteractionText(FString& Text) const
 void UTTInteractionComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	if (InteractiveSphereClass)
+	
+	const auto InteractiveShapeClassName = GetDefault<UTTInteractiveObjectsSettings>()->InteractiveShape;
+	const auto InteractiveShapeClass = (InteractiveShapeClassName.IsValid() ?
+		LoadObject<UClass>(GetOwner(), *InteractiveShapeClassName.ToString()) : nullptr);
+	
+	if (InteractiveShapeClass)
 	{
-		InteractiveSphere = GetWorld()->SpawnActor<ATTBaseInteractiveActor>(InteractiveSphereClass);
-		InteractiveSphere->SetOwner(GetOwner());
+		InteractiveShape = GetWorld()->SpawnActor<ATTBaseInteractiveActor>(InteractiveShapeClass);
+		InteractiveShape->SetOwner(GetOwner());
 	}
 }
 
@@ -68,8 +75,8 @@ void UTTInteractionComponent::UpdatePotentialForInteract()
 
 void UTTInteractionComponent::GenerateOverlapEvent(const FVector& Location) const
 {
-	if (!IsValid(InteractiveSphere)) return;
-	InteractiveSphere->SetActorLocation(Location);
+	if (!IsValid(InteractiveShape)) return;
+	InteractiveShape->SetActorLocation(Location);
 }
 
 bool UTTInteractionComponent::GetHitResultOnDistance(FVector& EndTrace, FHitResult& HitResult, ECollisionChannel TraceChannel,

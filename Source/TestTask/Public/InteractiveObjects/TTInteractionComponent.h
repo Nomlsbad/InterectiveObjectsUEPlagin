@@ -31,12 +31,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction Options", meta = (ClampMin = "0.0"))
 	float MaxDistanceToTarget = 200.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction Options", meta = (ClampMin = "0.0"))
-	float UpdateTargetRate = 0.2f;
-		
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction Options")
-	TSubclassOf<ATTBaseInteractiveActor> InteractiveSphereClass;
 	
 	virtual void BeginPlay() override;
 
@@ -46,7 +40,9 @@ private:
 	ATTPlayerInputInteractiveActor* PotentialForInteract = nullptr;
 
 	UPROPERTY()
-	ATTBaseInteractiveActor* InteractiveSphere;
+	ATTBaseInteractiveActor* InteractiveShape;
+
+	float UpdateTargetRate;
 
 	FTimerHandle UpdaterTargetTimerHandle;
 	
