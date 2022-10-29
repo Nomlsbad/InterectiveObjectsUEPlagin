@@ -15,7 +15,8 @@ public class TestTask : ModuleRules
 					"CoreUObject", 
 					"Engine", 
 					"InputCore", 
-					"HeadMountedDisplay", 
+					"HeadMountedDisplay",
+					"DeveloperSettings",
 					"InteractiveObjects"
 				});
 	}

@@ -2,7 +2,7 @@
 
 
 #include "UI/TTInteractionActorWidget.h"
-#include "InteractiveObjects/TTInteractionComponent.h"
+#include "Components/TTInteractionComponent.h"
 
 
 bool UTTInteractionActorWidget::GetInteractionText(FString& Text) const

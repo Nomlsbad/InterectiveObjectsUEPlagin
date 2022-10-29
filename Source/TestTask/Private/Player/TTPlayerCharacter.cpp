@@ -2,7 +2,7 @@
 
 
 #include "Player/TTPlayerCharacter.h"
-#include "InteractiveObjects/TTInteractionComponent.h"
+#include "Components/TTInteractionComponent.h"
 
 ATTPlayerCharacter::ATTPlayerCharacter()
 {
