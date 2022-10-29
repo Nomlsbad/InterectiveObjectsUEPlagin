@@ -73,6 +73,26 @@ void UTTInteractionComponent::UpdatePotentialForInteract()
 	GenerateOverlapEvent(EndTrace);
 }
 
+bool UTTInteractionComponent::GetBoundaryPoints(FVector& Start, FVector& End) const
+{
+	const auto Pawn = Cast<APawn>(GetOwner());
+	if (!Pawn) return false;
+
+	const auto Controller = Pawn->GetController<APlayerController>();
+	if (!Controller) return false;
+	
+	const auto CameraManager = Controller->PlayerCameraManager;
+	if (!CameraManager) return false;
+	
+	const FRotator CameraRotation = CameraManager->GetCameraRotation();
+	const FVector PlayerLocation = Pawn->GetActorLocation();
+	
+	Start = PlayerLocation;
+	End = Start + CameraRotation.Vector() * MaxDistanceToTarget;
+
+	return true;
+}
+
 void UTTInteractionComponent::GenerateOverlapEvent(const FVector& Location) const
 {
 	if (!IsValid(InteractiveShape)) return;
@@ -80,20 +100,15 @@ void UTTInteractionComponent::GenerateOverlapEvent(const FVector& Location) cons
 }
 
 bool UTTInteractionComponent::GetHitResultOnDistance(FVector& EndTrace, FHitResult& HitResult, ECollisionChannel TraceChannel,
-	const FCollisionQueryParams& Params, const FCollisionResponseParams& ResponseParam) const
-{	
-	const auto Character = Cast<ATTPlayerCharacter>(GetOwner());
-	if (!Character) return false;
-
-	const FRotator CameraRotation = Character->GetFollowCamera()->GetComponentRotation();
-	const FVector PlayerLocation = Character->GetActorLocation();
-	
-	const FVector Start = PlayerLocation;
-	const FVector End = Start + CameraRotation.Vector() * MaxDistanceToTarget;
+                                                     const FCollisionQueryParams& Params, const FCollisionResponseParams& ResponseParam) const
+{
+	FVector Start;
+	FVector End;
+	if (!GetBoundaryPoints(Start, End)) return false;
 
 	const bool bWasHit = GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, TraceChannel);
 	bWasHit ? EndTrace = HitResult.ImpactPoint : EndTrace = End;
-	//DrawDebugLine(GetWorld(), Start, bWasHit ? HitResult.ImpactPoint : End, FColor::Orange, false, UpdateTargetRate, 0, 3);
+	DrawDebugLine(GetWorld(), Start, bWasHit ? HitResult.ImpactPoint : End, FColor::Orange, false, UpdateTargetRate, 0, 3);
 
 	return bWasHit;
 }

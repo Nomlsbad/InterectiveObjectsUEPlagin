@@ -42,11 +42,13 @@ private:
 	UPROPERTY()
 	ATTBaseInteractiveActor* InteractiveShape;
 
-	float UpdateTargetRate;
-
 	FTimerHandle UpdaterTargetTimerHandle;
+
+	float UpdateTargetRate;
 	
 	void UpdatePotentialForInteract();
+
+	bool GetBoundaryPoints(FVector& Start, FVector& End) const;
 
 	void GenerateOverlapEvent(const FVector& Location) const;
 	
