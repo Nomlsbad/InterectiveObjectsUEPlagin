@@ -2,11 +2,14 @@
 
 
 #include "InteractiveActors/TTBaseInteractiveActor.h"
+#include "TTInteractiveObjectsSettings.h"
 
 
 ATTBaseInteractiveActor::ATTBaseInteractiveActor()
 {
  	PrimaryActorTick.bCanEverTick = true;
+
+	CollisionComponentNames.Add(GetDefault<UTTInteractiveObjectsSettings>()->DefaultCollisionComponentName);
 }
 
 void ATTBaseInteractiveActor::StartInteraction_Implementation(AActor* InstigatedBy)

@@ -18,5 +18,8 @@ public:
 
 	UPROPERTY(Config, NoClear, EditAnywhere, Category = "InteractionComponentSettings", meta = (MetaClass="TTBaseInteractiveActor"))
 	FSoftClassPath InteractiveShape;
+
+	UPROPERTY(Config, EditAnywhere, Category = "CollisionSettings")
+	FName DefaultCollisionComponentName;
 };
 	

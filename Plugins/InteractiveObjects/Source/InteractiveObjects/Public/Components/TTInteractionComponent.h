@@ -25,14 +25,14 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void TryToInteract();
-
-	UFUNCTION(BlueprintCallable, Category = "UI")
-	bool GetInteractionText(FString& Text) const;
 	
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction Options", meta = (ClampMin = "0.0"))
 	float MaxDistanceToTarget = 200.0f;
+
+	UPROPERTY()
+	ATTBaseInteractiveActor* InteractiveShape;
 	
 	virtual void BeginPlay() override;
 
@@ -40,10 +40,7 @@ private:
 
 	UPROPERTY()
 	ATTPlayerInputInteractiveActor* PotentialForInteract = nullptr;
-
-	UPROPERTY()
-	ATTBaseInteractiveActor* InteractiveShape;
-
+	
 	FTimerHandle UpdaterTargetTimerHandle;
 
 	float UpdateTargetRate;

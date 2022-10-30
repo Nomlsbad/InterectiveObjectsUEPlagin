@@ -11,7 +11,5 @@ UCLASS()
 class TESTTASK_API UTTPlayerHUDWidget : public UTTBaseWidget
 {
 	GENERATED_BODY()
-
-public:
 	
 };

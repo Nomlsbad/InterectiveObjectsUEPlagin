@@ -19,26 +19,20 @@ public:
 
 	ATTPlayerInputInteractiveActor();
 
-	UPROPERTY(BlueprintAssignable, Category = "InteractiveObject | Interaction")
+	UPROPERTY(BlueprintAssignable, Category = "InteractiveActor | Interaction")
 	FOnActorIsSeenSignature OnActorIsSeen;
 
-	UPROPERTY(BlueprintAssignable, Category = "InteractiveObject | Interaction")
+	UPROPERTY(BlueprintAssignable, Category = "InteractiveActor | Interaction")
 	FOnActorIsUnseenSignature OnActorIsUnseen;
-
-	UFUNCTION(BlueprintCallable, Category = "InteractiveObject | UI")
-	FString GetInteractionText() const { return InteractionText; }
-
+	
 	virtual bool IsReadyToStartInteraction() override { return bIsSeen; }
 
 protected:
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "InteractiveObject | Interacrion Options")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "InteractiveActor | Interacrion Options")
 	bool bNeedToHighlight;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "InteractiveObject | UI")
-	FString InteractionText;
 	
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InteractiveObject | Interaction")
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "InteractiveActor | Interaction")
 	void SetHighlight(bool bHighlightVisibility);
 	virtual void SetHighlight_Implementation(bool bHighlightVisibility) {}
 

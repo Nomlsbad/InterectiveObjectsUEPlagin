@@ -10,12 +10,13 @@
 UTTInteractionComponent::UTTInteractionComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	
+	UpdateTargetRate = GetDefault<UTTInteractiveObjectsSettings>()->UpdateTargetRate;
 }
 
 void UTTInteractionComponent::InitializeUpdaterTargetTimer()
 {
 	FTimerDelegate UpdateTargetTimerDelegate;
-	UpdateTargetRate = GetDefault<UTTInteractiveObjectsSettings>()->UpdateTargetRate;
 	
 	UpdateTargetTimerDelegate.BindUObject(this, &UTTInteractionComponent::UpdatePotentialForInteract);
 	GetWorld()->GetTimerManager().SetTimer(UpdaterTargetTimerHandle, UpdateTargetTimerDelegate, UpdateTargetRate, true);
@@ -30,20 +31,13 @@ void UTTInteractionComponent::TryToInteract()
 	PotentialForInteract->StartInteraction(GetOwner());
 }
 
-bool UTTInteractionComponent::GetInteractionText(FString& Text) const
-{
-	if (!PotentialForInteract || !PotentialForInteract->IsReadyToStartInteraction()) return false;
-	Text = PotentialForInteract->GetInteractionText();
-	return true;
-}
-
 void UTTInteractionComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	const auto InteractiveShapeClassName = GetDefault<UTTInteractiveObjectsSettings>()->InteractiveShape;
 	const auto InteractiveShapeClass = (InteractiveShapeClassName.IsValid() ?
-		LoadObject<UClass>(GetOwner(), *InteractiveShapeClassName.ToString()) : nullptr);
+			LoadObject<UClass>(GetOwner(), *InteractiveShapeClassName.ToString()) : nullptr);
 	
 	if (InteractiveShapeClass)
 	{
